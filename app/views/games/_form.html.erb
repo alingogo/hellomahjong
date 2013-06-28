@@ -1,0 +1,66 @@
+<%= form_for @game, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label '卓', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :table, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label '回戦', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :number, :class => 'number_field' %>
+    </div>
+  </div>
+
+  <% if params[:action] == 'new' %>
+  <div class="control-group">
+    <%= f.label :participants, :class => 'checkbox' %>
+    <% @participants.each do |p| %>
+      <% if @game_participants %>
+        <%= check_box_tag 'participants[]', p.id, @game_participants.include?(p.id) %>
+      <% else %>
+          <%= check_box_tag 'participants[]', p.id %>
+      <% end %>
+      <%= p.name %>
+    <% end %>
+  </div>
+  <% else %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= "参加者" %></th>
+          <th><%= "順位" %></th>
+          <th><%= "点棒ポイント" %></th>
+          <th><%= "方位" %></th>
+        </tr>
+      </thead>
+      <tbody>
+      <% direcs = Score::DIRECTIONS %>
+      <% @scores.each do |s| %>
+        <tr>
+          <td><%= s.participant.name %></td>
+          <td><%= "" %></td>
+          <td>
+            <%= f.text_field "points[#{s.id}]", :value => s.points, :class => 'text_field' %>
+          </td>
+          <td>
+            <%= select :direction, s.id.to_s.to_sym,
+              [['東', '4'], ['南', '3'], ['西', '2'], ['北', '1']],
+              :selected => s.direction
+            %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+      <%= f.label '供託', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :tuogong, :value => @tuogong, :class => 'text_field' %>
+      </div>
+    </table>
+  <% end %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                games_path, :class => 'btn' %>
+  </div>
+<% end %>

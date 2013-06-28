@@ -1,0 +1,38 @@
+<div class="scrollable panel">
+<% if @tm %>
+  <%= link_to '参加者編集', participants_path, :class => 'btn btn-primary' %>
+  <%= link_to 'ゲーム登録',
+              new_game_path,
+              :class => 'btn btn-primary' %>
+<% end %>
+  <%= link_to '結果', url_for(:action => 'result'), :class => 'btn btn-primary' %>
+
+<% if @games %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= '各卓毎の結果' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @games.each do |game| %>
+      <tr>
+        <td><%= link_to game.number.to_s + '回戦' + game.table + '卓', game_path(game) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<% if @tm %>
+<div class="form-actions">
+  <%= link_to '編集',
+              edit_meeting_path(@meeting), :class => 'btn' %>
+  <%= link_to '削除',
+              meeting_path(@meeting),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.   confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
+<% end %>
+</div>

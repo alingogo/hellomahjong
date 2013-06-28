@@ -1,0 +1,43 @@
+<%- model_class = Game -%>
+<dl class="dl-horizontal">
+  <h2>
+    <%= @game.number.to_s + '回戦' + @game.table + '卓' %>
+    <%= "  供託: #{@tuogong} 本" %>
+  </h2>
+</dl>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= "参加者" %></th>
+      <th><%= "順位" %></th>
+      <th><%= "点棒ポイント" %></th>
+      <th><%= "方位" %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <%  dires = {'4' => '東', '3' => '南', '2' => '西', '1' => '北'} %>
+  <% @scores.each_with_index do |s,i|%>
+    <tr>
+      <td><%= s.participant.name %></td>
+      <td><%= i+1 %></td>
+      <td><%= s.points %></td>
+      <td><%= dires[s.direction] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<div class="form-actions">
+  <%= link_to '戻る',
+              games_path, :class => 'btn'  %>
+  <% if @tm %>
+  <%= link_to '編集',
+              edit_game_path(@game), :class => 'btn' %>
+  <%= link_to '削除',
+              game_path(@game),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+  <% end %>
+</div>

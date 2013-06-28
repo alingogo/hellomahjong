@@ -1,0 +1,23 @@
+<%- model_class = Participant -%>
+<%= link_to '新参加者登録',
+            new_participant_path,
+            :class => 'btn btn-primary' %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @participants.each do |participant| %>
+      <tr>
+        <td><%= participant.name %></td>
+        <td>
+          <%= link_to '編集',
+                      edit_participant_path(participant), :class => 'btn btn-mini' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

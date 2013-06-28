@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h2><%= '集計結果'  %></h2>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= "順位" %></th>
+      <th><%= "参加者" %></th>
+      <th><%= "合計点数(精算ポイントで表示)" %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% previous = 0, prevalue = nil %>
+    <% @result.each_with_index do |r, i| %>
+      <tr>
+        <% if r[1] == prevalue
+             previous = i
+          else
+             previous = i + 1
+          end
+          prevalue = r[1]
+        %>
+        <td><%= previous.to_s %></td>
+        <td><%= r[0] %></td>
+        <td><%= r[1].round(1) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to '戻る',
+            games_path, :class => 'btn'  %>
+

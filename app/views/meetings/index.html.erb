@@ -1,0 +1,26 @@
+<%- model_class = Meeting -%>
+<div class="page-header">
+ </div>
+
+<%= link_to '試合登録',
+            new_meeting_path,
+            :class => 'btn btn-primary' %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= 'タイトル' %></th>
+      <th><%= '作成者' %></th>
+      <th><%= '説明' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @meetings.each do |meeting| %>
+      <tr>
+        <td><%= link_to meeting.title, meeting_path(meeting) %></td>
+        <td><%= meeting.creator %></td>
+        <td><%= meeting.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
